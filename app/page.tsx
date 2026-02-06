@@ -9,7 +9,7 @@ import { GroundingExercise } from "@/components/grounding-exercise"
 import { ThoughtDump } from "@/components/thought-dump"
 import { QuickActions } from "@/components/quick-actions"
 import { BodyReset } from "@/components/body-reset"
-import { Wind, Eye, FileText, Sparkles, Activity, X, ArrowLeft } from "lucide-react"
+import { Wind, Eye, FileText, Sparkles, Activity, X, ArrowLeft, Star } from "lucide-react"
 
 type Tool = "bodyreset" | "breathing" | "grounding" | "dump" | "prompts" | null
 
@@ -103,7 +103,7 @@ export default function Home() {
       <div className="max-w-2xl mx-auto px-4 py-12">
         <header className="text-center mb-12">
           <h1 className="text-4xl font-bold text-foreground mb-3 tracking-tight">
-            Anti-Overthinking App
+            Anti-Overthinking
           </h1>
           <p className="text-muted-foreground text-lg">
             Stop overthinking. Find your calm.
@@ -144,7 +144,17 @@ export default function Home() {
           ))}
         </div>
 
-        <footer className="mt-16 text-center">
+        <footer className="mt-16 flex flex-col items-center gap-4">
+          <a
+            href="https://github.com/calchiwo/anti-overthinking-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="outline" size="sm" className="gap-2 bg-transparent">
+              <Star className="w-4 h-4" />
+              Star on GitHub
+            </Button>
+          </a>
           <p className="text-sm text-muted-foreground">
             Remember: thoughts are not facts.
           </p>
