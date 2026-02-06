@@ -50,7 +50,7 @@ export default function Home() {
   const [activeTool, setActiveTool] = useState<Tool>(null)
 
   const handlePanic = () => {
-    setActiveTool("bodyreset")
+    setActiveTool("breathing")
   }
 
   const handleClose = () => {
