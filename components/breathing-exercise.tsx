@@ -125,7 +125,18 @@ export function BreathingExercise() {
       </div>
 
       {/* Breathing circle */}
-      <div className="relative flex items-center justify-center w-64 h-64">
+      <button
+        type="button"
+        onClick={() => {
+          if (isComplete) {
+            reset()
+          } else {
+            setIsActive(!isActive)
+          }
+        }}
+        className="relative flex items-center justify-center w-64 h-64 cursor-pointer rounded-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        aria-label={isComplete ? "Restart breathing exercise" : isActive ? "Pause breathing exercise" : "Start breathing exercise"}
+      >
         {/* Total progress ring */}
         <svg
           className="absolute w-64 h-64 -rotate-90"
@@ -189,7 +200,7 @@ export function BreathingExercise() {
             </>
           )}
         </div>
-      </div>
+      </button>
 
       {/* Controls */}
       <div className="flex items-center gap-4">
