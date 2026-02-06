@@ -1,24 +1,34 @@
 "use client"
 
-import { useState } from "react"
+import React from "react"
+
+import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import { Check, RotateCcw } from "lucide-react"
+import { Check, RotateCcw, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const senses = [
-  { count: 5, sense: "things you can see", icon: "eye" },
-  { count: 4, sense: "things you can touch", icon: "hand" },
-  { count: 3, sense: "things you can hear", icon: "ear" },
-  { count: 2, sense: "things you can smell", icon: "nose" },
-  { count: 1, sense: "thing you can taste", icon: "tongue" },
+  { count: 5, sense: "things you can see", placeholder: "desk, window, lamp..." },
+  { count: 4, sense: "things you can touch", placeholder: "keyboard, mug, fabric..." },
+  { count: 3, sense: "things you can hear", placeholder: "fan, birds, typing..." },
+  { count: 2, sense: "things you can smell", placeholder: "coffee, air, soap..." },
+  { count: 1, sense: "thing you can taste", placeholder: "water, mint, nothing..." },
 ]
 
 export function GroundingExercise() {
   const [currentStep, setCurrentStep] = useState(0)
   const [completed, setCompleted] = useState<number[]>([])
   const [isFinished, setIsFinished] = useState(false)
+  const [answers, setAnswers] = useState<string[]>(Array(5).fill(""))
+  const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleComplete = () => {
+  useEffect(() => {
+    if (!isFinished && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [currentStep, isFinished])
+
+  const handleNext = () => {
     const newCompleted = [...completed, currentStep]
     setCompleted(newCompleted)
 
@@ -29,10 +39,17 @@ export function GroundingExercise() {
     }
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      handleNext()
+    }
+  }
+
   const reset = () => {
     setCurrentStep(0)
     setCompleted([])
     setIsFinished(false)
+    setAnswers(Array(5).fill(""))
   }
 
   if (isFinished) {
@@ -47,6 +64,16 @@ export function GroundingExercise() {
             Take a moment to notice how you feel now.
           </p>
         </div>
+
+        <div className="w-full max-w-xs space-y-2 text-left">
+          {senses.map((s, i) => (
+            <div key={i} className="text-sm">
+              <span className="text-muted-foreground">{s.count} {s.sense}:</span>{" "}
+              <span className="text-foreground">{answers[i] || "---"}</span>
+            </div>
+          ))}
+        </div>
+
         <Button variant="outline" onClick={reset} className="gap-2 bg-transparent">
           <RotateCcw className="w-4 h-4" />
           Start again
@@ -80,12 +107,29 @@ export function GroundingExercise() {
         <p className="text-xl text-foreground">{current.sense}</p>
       </div>
 
-      <p className="text-sm text-muted-foreground text-center max-w-xs">
-        Look around you and find {current.count} {current.sense}. Take your time.
-      </p>
+      <div className="w-full max-w-xs">
+        <input
+          ref={inputRef}
+          type="text"
+          value={answers[currentStep]}
+          onChange={(e) => {
+            const newAnswers = [...answers]
+            newAnswers[currentStep] = e.target.value
+            setAnswers(newAnswers)
+          }}
+          onKeyDown={handleKeyDown}
+          placeholder={current.placeholder}
+          className="w-full bg-transparent border-b border-border text-foreground placeholder:text-muted-foreground/50 text-center py-2 text-sm focus:outline-none focus:border-primary transition-colors"
+          aria-label={`Name ${current.count} ${current.sense}`}
+        />
+        <p className="text-xs text-muted-foreground text-center mt-2">
+          Type a quick answer or just press Enter to skip
+        </p>
+      </div>
 
-      <Button onClick={handleComplete} size="lg" className="px-8">
-        Done
+      <Button onClick={handleNext} size="lg" className="px-8 gap-2">
+        Next
+        <ArrowRight className="w-4 h-4" />
       </Button>
     </div>
   )
