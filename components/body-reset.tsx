@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Play, Pause, RotateCcw } from "lucide-react"
+import { Confetti } from "@/components/confetti"
 
 interface Phase {
   label: string
@@ -94,7 +95,8 @@ export function BodyReset() {
   if (isComplete) {
     return (
       <div className="flex flex-col items-center gap-8 w-full max-w-md">
-        <div className="w-40 h-40 rounded-full bg-primary/20 flex items-center justify-center">
+        <Confetti active={isComplete} />
+      <div className="w-40 h-40 rounded-full bg-primary/20 flex items-center justify-center">
           <div className="w-28 h-28 rounded-full bg-primary/40 flex items-center justify-center">
             <span className="text-3xl font-semibold text-primary">Done</span>
           </div>

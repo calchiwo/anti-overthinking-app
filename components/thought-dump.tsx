@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Trash2, Download } from "lucide-react"
+import { Confetti } from "@/components/confetti"
 
 export function ThoughtDump() {
   const [thought, setThought] = useState("")
@@ -34,6 +35,7 @@ export function ThoughtDump() {
   if (isReleased) {
     return (
       <div className="flex flex-col items-center justify-center h-64 gap-4">
+        <Confetti active={isReleased} />
         <div className="relative">
           <div className="w-16 h-16 rounded-full bg-primary/20 animate-ping absolute" />
           <div className="w-16 h-16 rounded-full bg-primary/40 flex items-center justify-center relative">

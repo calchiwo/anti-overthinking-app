@@ -6,6 +6,7 @@ import { useState, useRef, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Check, RotateCcw, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Confetti } from "@/components/confetti"
 
 const senses = [
   { count: 5, sense: "things you can see", placeholder: "desk, window, lamp..." },
@@ -55,6 +56,7 @@ export function GroundingExercise() {
   if (isFinished) {
     return (
       <div className="flex flex-col items-center gap-6 text-center">
+        <Confetti active={isFinished} />
         <div className="w-20 h-20 rounded-full bg-primary/20 flex items-center justify-center">
           <Check className="w-10 h-10 text-primary" />
         </div>
