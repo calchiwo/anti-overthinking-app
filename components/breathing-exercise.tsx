@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Play, Pause, RotateCcw } from "lucide-react"
+import { Confetti } from "@/components/confetti"
 
 type Phase = "inhale" | "hold" | "exhale" | "rest"
 
@@ -29,6 +30,7 @@ export function BreathingExercise() {
   const [cycles, setCycles] = useState(0)
   const [totalElapsed, setTotalElapsed] = useState(0)
   const [isComplete, setIsComplete] = useState(false)
+  const [confettiKey, setConfettiKey] = useState(0)
 
   const currentPhase = phases[currentPhaseIndex]
 
@@ -55,6 +57,7 @@ export function BreathingExercise() {
         if (next >= selectedDuration) {
           setIsActive(false)
           setIsComplete(true)
+          setConfettiKey((k) => k + 1)
           clearInterval(interval)
           return selectedDuration
         }
@@ -101,6 +104,7 @@ export function BreathingExercise() {
 
   return (
     <div className="flex flex-col items-center gap-8">
+      <Confetti key={confettiKey} active={isComplete} />
       {/* Duration toggle */}
       <div className="flex items-center gap-1 rounded-full border border-border p-1">
         {durationOptions.map((opt) => (
