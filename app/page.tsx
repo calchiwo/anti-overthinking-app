@@ -9,7 +9,7 @@ import { GroundingExercise } from "@/components/grounding-exercise"
 import { ThoughtDump } from "@/components/thought-dump"
 import { QuickActions } from "@/components/quick-actions"
 import { BodyReset } from "@/components/body-reset"
-import { Wind, Eye, FileText, Sparkles, Activity, X, ArrowLeft, Star } from "lucide-react"
+import { Wind, Eye, FileText, Sparkles, Activity, X, ArrowLeft, ArrowRight, Star } from "lucide-react"
 
 type Tool = "bodyreset" | "breathing" | "grounding" | "dump" | "prompts" | null
 
@@ -74,9 +74,23 @@ export default function Home() {
     }
   }
 
+  const currentIndex = tools.findIndex((t) => t.id === activeTool)
+
   const getToolTitle = () => {
     const tool = tools.find((t) => t.id === activeTool)
     return tool?.title || ""
+  }
+
+  const goToNext = () => {
+    if (currentIndex < tools.length - 1) {
+      setActiveTool(tools[currentIndex + 1].id)
+    }
+  }
+
+  const goToPrev = () => {
+    if (currentIndex > 0) {
+      setActiveTool(tools[currentIndex - 1].id)
+    }
   }
 
   if (activeTool) {
@@ -94,6 +108,32 @@ export default function Home() {
         <div className="flex-1 flex items-center justify-center p-6">
           {renderToolContent()}
         </div>
+
+        <footer className="flex items-center justify-between p-4 border-t border-border">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-1"
+            onClick={goToPrev}
+            disabled={currentIndex <= 0}
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Prev
+          </Button>
+          <span className="text-xs text-muted-foreground">
+            {currentIndex + 1} / {tools.length}
+          </span>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="gap-1"
+            onClick={goToNext}
+            disabled={currentIndex >= tools.length - 1}
+          >
+            Next
+            <ArrowRight className="w-4 h-4" />
+          </Button>
+        </footer>
       </main>
     )
   }
